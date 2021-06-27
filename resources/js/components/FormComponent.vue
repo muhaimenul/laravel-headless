@@ -8,19 +8,16 @@
         <div class="row">
             <div class="col-md-12">
 
-
-                <div v-if="loading || (progress && progress != 100)" class="text-center">
-                    <progress-bar
-                        :options="options"
-                        :value="progress"
-                    />
+                <div v-if="(progress && progress != 100)" class="text-center">
+                    <div class="align-content-center" style="margin-right: 150px">
+                        <progress-bar
+                            :options="options"
+                            :value="progress"
+                        />
+                    </div>
                     <h6 class="text-center">File importing ...</h6>
                 </div>
 
-                <!--                <form @submit.prevent="uploadCsv" enctype="multipart/form-data">-->
-                <!--                    <input type="file" class="form-control" v-on:change="selectFile">-->
-                <!--                    <button class="btn btn-primary btn-block">Upload</button>-->
-                <!--                </form>-->
                 <div v-else>
                     <form @submit.prevent="uploadCsv" enctype="multipart/form-data">
                         <div class="form-group">
@@ -91,7 +88,9 @@ export default {
     },
     methods: {
         uploadCsv() {
-            this.validateCsv()
+            if(!this.validateCsv()) return
+
+            this.loading = true
 
             let data = new FormData();
             data.append('csv_file', this.csv);
@@ -127,6 +126,10 @@ export default {
                     ))
                     .catch(err => {
                         console.log(err.response)
+                        let message = (err.response.message || err.response.data.message) +'. Continue?'
+                        if(!confirm(message)) {
+                            this.batch = null
+                        }
                     })
                     // .finally(() => this.loading = false)
             }

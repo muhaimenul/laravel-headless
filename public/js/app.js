@@ -1882,9 +1882,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 var BASE_URL = 'http://localhost:8000/api';
@@ -1939,7 +1936,8 @@ var BASE_URL = 'http://localhost:8000/api';
     uploadCsv: function uploadCsv() {
       var _this2 = this;
 
-      this.validateCsv();
+      if (!this.validateCsv()) return;
+      this.loading = true;
       var data = new FormData();
       data.append('csv_file', this.csv);
       var config = {
@@ -1975,6 +1973,11 @@ var BASE_URL = 'http://localhost:8000/api';
           return _this3.batch = response.data;
         })["catch"](function (err) {
           console.log(err.response);
+          var message = (err.response.message || err.response.data.message) + '. Continue?';
+
+          if (!confirm(message)) {
+            _this3.batch = null;
+          }
         }); // .finally(() => this.loading = false)
       }
     }
@@ -37774,21 +37777,26 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
-        _vm.loading || (_vm.progress && _vm.progress != 100)
-          ? _c(
-              "div",
-              { staticClass: "text-center" },
-              [
-                _c("progress-bar", {
-                  attrs: { options: _vm.options, value: _vm.progress }
-                }),
-                _vm._v(" "),
-                _c("h6", { staticClass: "text-center" }, [
-                  _vm._v("File importing ...")
-                ])
-              ],
-              1
-            )
+        _vm.progress && _vm.progress != 100
+          ? _c("div", { staticClass: "text-center" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "align-content-center",
+                  staticStyle: { "margin-right": "150px" }
+                },
+                [
+                  _c("progress-bar", {
+                    attrs: { options: _vm.options, value: _vm.progress }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("h6", { staticClass: "text-center" }, [
+                _vm._v("File importing ...")
+              ])
+            ])
           : _c("div", [
               _c(
                 "form",
