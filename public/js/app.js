@@ -1945,10 +1945,9 @@ var BASE_URL = 'http://localhost:8000/api';
         }
       };
       axios.post(BASE_URL + '/import-csv', data, config).then(function (response) {
-        console.log(response.data);
         _this2.batch = response.data;
       })["catch"](function (err) {
-        console.log(err.response);
+        alert(err.response.message || err.response.data.message);
       })["finally"](function () {
         return _this2.loading = false;
       });

@@ -98,11 +98,10 @@ export default {
             }
             axios.post(BASE_URL + '/import-csv', data, config)
                 .then(response => {
-                    console.log(response.data)
                     this.batch = response.data
                 })
                 .catch(err => {
-                    console.log(err.response)
+                    alert(err.response.message || err.response.data.message)
                 })
                 .finally(() => this.loading = false)
         },
