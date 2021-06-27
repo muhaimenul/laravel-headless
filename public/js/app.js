@@ -1882,7 +1882,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1896,6 +1895,7 @@ __webpack_require__.r(__webpack_exports__);
       batch: null,
       batchId: null,
       loading: false,
+      progress: 0,
       options: {
         progress: {// color: '#2dbd2d',
           // backgroundColor: '#333333',
@@ -1909,10 +1909,16 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  computed: {
-    progress: function progress() {
-      return 50;
-    }
+  computed: {// progress: function () {
+    //     return 50
+    // }
+  },
+  created: function created() {
+    var _this = this;
+
+    setInterval(function () {
+      _this.checkUploadDetails();
+    }, 2000);
   },
   methods: {
     uploadCsv: function uploadCsv() {
@@ -1937,6 +1943,11 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return true;
+    },
+    checkUploadDetails: function checkUploadDetails() {
+      if (this.progress < 100) {
+        this.progress += 5;
+      }
     }
   }
 });

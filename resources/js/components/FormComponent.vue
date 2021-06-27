@@ -20,7 +20,6 @@
                 <!--                </form>-->
 
 
-
                 <form @submit.prevent="uploadCsv" enctype="multipart/form-data">
                     <div class="form-group">
                         <input type="file" class="form-control" v-on:change="selectFile" required>
@@ -48,6 +47,7 @@ export default {
             batch: null,
             batchId: null,
             loading: false,
+            progress: 0,
             options: {
                 progress: {
                     // color: '#2dbd2d',
@@ -63,9 +63,16 @@ export default {
         }
     },
     computed: {
-        progress: function () {
-            return 50
-        }
+        // progress: function () {
+        //     return 50
+        // }
+    },
+    created() {
+
+        setInterval(() => {
+            this.checkUploadDetails()
+        }, 2000);
+
     },
     methods: {
         uploadCsv() {
@@ -85,12 +92,16 @@ export default {
             this.csv = event.target.files[0];
         },
         validateCsv() {
-
             if (!this.csv || this.csv.type !== "text/csv") {
                 alert('Not a valid CSV file!')
                 return false
             }
             return true;
+        },
+        checkUploadDetails() {
+            if (this.progress < 100) {
+                this.progress += 5;
+            }
         }
 
     }
