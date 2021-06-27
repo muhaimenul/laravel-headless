@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,12 +15,13 @@ class StoreChunkedOrderData implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $data;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->data   = $data;
 
@@ -32,6 +34,11 @@ class StoreChunkedOrderData implements ShouldQueue
      */
     public function handle()
     {
-        //
+        foreach ($this->data['orders'] as $order) {
+            $orderData = array_combine($this->data['columns'], $order);
+            if($orderData) {
+                Order::create($orderData);
+            }
+        }
     }
 }

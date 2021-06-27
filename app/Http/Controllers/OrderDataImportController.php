@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\StoreChunkedOrderData;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,11 @@ class OrderDataImportController extends Controller
         ini_set('upload_max_filesize', '20M');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Bus\Batch
+     * @throws \Throwable
+     */
     public function import(Request $request)
     {
         // Validate csv file
@@ -22,28 +28,49 @@ class OrderDataImportController extends Controller
             'csv_file' => 'required|file|mimes:csv,txt',
         ]);
 
-//            chunk file if large data set
-        $chunkedFileData = array_chunk(file($request->csv_file), 800);
-        $this->executeDataImport($chunkedFileData);
+        try {
+            //            chunk file if large data set
+            $chunkedFileData = array_chunk(file($request->csv_file), 800);
+            return $this->executeDataImport($chunkedFileData);
+        } catch (\Exception $e) {
+            throw $e;
+        }
 
     }
 
-    //separate service method
+
+    /**
+     * separate service method
+     * @param array $chunks
+     * @return \Illuminate\Bus\Batch
+     * @throws \Throwable
+     */
     public function executeDataImport(array $chunks)
     {
-        // head of each chunk
-        $head = [];
+        // header column of file
+        $file_header = [];
+
+        //initiating batch jobs array
+        $batch = Bus::batch([])->dispatch();
+
         foreach ($chunks as $key => $chunk) {
             // array of csv data
             $data = array_map('str_getcsv', $chunk);
 
             // set head
             if ($key === 0) {
-                $head = $data[0];
+                $file_header = $data[0];
                 unset($data[0]);
             }
 
+            $batch->add(new StoreChunkedOrderData([
+                'orders' => $data,
+                'columns' => $file_header
+            ]));
+
         }
+
+        return $batch;
 
     }
 }
