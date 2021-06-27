@@ -1882,6 +1882,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 var BASE_URL = 'http://localhost:8000/api';
@@ -37763,15 +37766,26 @@ var render = function() {
   return _c("div", [
     _c("h3", { staticClass: "text-center" }, [_vm._v("Upload CSV File")]),
     _vm._v(" "),
+    _vm.progress && _vm.progress >= 100
+      ? _c("h6", { staticClass: "text-center" }, [
+          _vm._v("File imported. Upload another file?")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
         _vm.loading || (_vm.progress && _vm.progress != 100)
           ? _c(
               "div",
+              { staticClass: "text-center" },
               [
                 _c("progress-bar", {
                   attrs: { options: _vm.options, value: _vm.progress }
-                })
+                }),
+                _vm._v(" "),
+                _c("h6", { staticClass: "text-center" }, [
+                  _vm._v("File importing ...")
+                ])
               ],
               1
             )

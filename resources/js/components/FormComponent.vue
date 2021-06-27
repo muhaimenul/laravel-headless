@@ -2,16 +2,19 @@
     <div>
         <h3 class="text-center">Upload CSV File</h3>
 
+        <h6 v-if="(progress && progress >= 100)" class="text-center">File imported. Upload another file?</h6>
+
 
         <div class="row">
             <div class="col-md-12">
 
 
-                <div v-if="loading || (progress && progress != 100)">
+                <div v-if="loading || (progress && progress != 100)" class="text-center">
                     <progress-bar
                         :options="options"
                         :value="progress"
                     />
+                    <h6 class="text-center">File importing ...</h6>
                 </div>
 
                 <!--                <form @submit.prevent="uploadCsv" enctype="multipart/form-data">-->

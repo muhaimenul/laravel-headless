@@ -34,6 +34,7 @@ class StoreChunkedOrderData implements ShouldQueue
      */
     public function handle()
     {
+        sleep(10);
         foreach ($this->data['orders'] as $order) {
             $orderData = array_combine($this->data['columns'], $order);
             if($orderData) {
