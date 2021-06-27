@@ -18,7 +18,7 @@ class OrderDataImportController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Bus\Batch
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
     public function import(Request $request)
@@ -31,7 +31,8 @@ class OrderDataImportController extends Controller
         try {
             //            chunk file if large data set
             $chunkedFileData = array_chunk(file($request->csv_file), 800);
-            return $this->executeDataImport($chunkedFileData);
+            $batchData = $this->executeDataImport($chunkedFileData);
+            return response()->json($batchData);
         } catch (\Exception $e) {
             throw $e;
         }
@@ -72,5 +73,10 @@ class OrderDataImportController extends Controller
 
         return $batch;
 
+    }
+
+    public function batchDetails($id)
+    {
+        return response()->json(Bus::findBatch($id));
     }
 }

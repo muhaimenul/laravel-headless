@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/import-csv', [\App\Http\Controllers\OrderDataImportController::class, 'import']);
+Route::get('/batches/{id}/show', [\App\Http\Controllers\OrderDataImportController::class, 'batchDetails']);
