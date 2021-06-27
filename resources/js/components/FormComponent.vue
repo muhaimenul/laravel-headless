@@ -7,7 +7,7 @@
             <div class="col-md-12">
 
 
-                <div>
+                <div v-if="loading || (progress && progress != 100)">
                     <progress-bar
                         :options="options"
                         :value="progress"
@@ -18,15 +18,15 @@
                 <!--                    <input type="file" class="form-control" v-on:change="selectFile">-->
                 <!--                    <button class="btn btn-primary btn-block">Upload</button>-->
                 <!--                </form>-->
+                <div v-else>
+                    <form @submit.prevent="uploadCsv" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="file" class="form-control" v-on:change="selectFile" required>
+                        </div>
 
-
-                <form @submit.prevent="uploadCsv" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <input type="file" class="form-control" v-on:change="selectFile" required>
-                    </div>
-
-                    <button type="submit" class="float-right btn btn-primary">Upload</button>
-                </form>
+                        <button type="submit" class="float-right btn btn-primary" :disabled="loading" >Upload</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -81,7 +81,6 @@ export default {
         }
     },
     created() {
-
         setInterval(() => {
             this.checkUploadDetails()
         }, 2000);
@@ -95,13 +94,13 @@ export default {
             data.append('csv_file', this.csv);
 
             let config = {
-                headers: { 'content-type': 'multipart/form-data' }
+                headers: {'content-type': 'multipart/form-data'}
             }
-            axios
-                .post(BASE_URL+'/import-csv', data, config)
-                .then(response => (
+            axios.post(BASE_URL + '/import-csv', data, config)
+                .then(response => {
                     console.log(response.data)
-                ))
+                    this.batch = response.data
+                })
                 .catch(err => {
                     console.log(err.response)
                 })
@@ -118,8 +117,16 @@ export default {
             return true;
         },
         checkUploadDetails() {
-            if (this.progress < 100) {
-
+            if (this.batch && this.progress < 100) {
+                let url = BASE_URL + '/batches/' + this.batch.id
+                axios.get(url)
+                    .then(response => (
+                        this.batch = response.data
+                    ))
+                    .catch(err => {
+                        console.log(err.response)
+                    })
+                    // .finally(() => this.loading = false)
             }
         }
 

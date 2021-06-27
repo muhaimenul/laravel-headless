@@ -1945,7 +1945,8 @@ var BASE_URL = 'http://localhost:8000/api';
         }
       };
       axios.post(BASE_URL + '/import-csv', data, config).then(function (response) {
-        return console.log(response.data);
+        console.log(response.data);
+        _this2.batch = response.data;
       })["catch"](function (err) {
         console.log(err.response);
       })["finally"](function () {
@@ -1964,7 +1965,16 @@ var BASE_URL = 'http://localhost:8000/api';
       return true;
     },
     checkUploadDetails: function checkUploadDetails() {
-      if (this.progress < 100) {}
+      var _this3 = this;
+
+      if (this.batch && this.progress < 100) {
+        var url = BASE_URL + '/batches/' + this.batch.id;
+        axios.get(url).then(function (response) {
+          return _this3.batch = response.data;
+        })["catch"](function (err) {
+          console.log(err.response);
+        }); // .finally(() => this.loading = false)
+      }
     }
   }
 });
@@ -37756,46 +37766,48 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
-        _c(
-          "div",
-          [
-            _c("progress-bar", {
-              attrs: { options: _vm.options, value: _vm.progress }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "form",
-          {
-            attrs: { enctype: "multipart/form-data" },
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.uploadCsv.apply(null, arguments)
-              }
-            }
-          },
-          [
-            _c("div", { staticClass: "form-group" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "file", required: "" },
-                on: { change: _vm.selectFile }
-              })
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "float-right btn btn-primary",
-                attrs: { type: "submit" }
-              },
-              [_vm._v("Upload")]
+        _vm.loading || (_vm.progress && _vm.progress != 100)
+          ? _c(
+              "div",
+              [
+                _c("progress-bar", {
+                  attrs: { options: _vm.options, value: _vm.progress }
+                })
+              ],
+              1
             )
-          ]
-        )
+          : _c("div", [
+              _c(
+                "form",
+                {
+                  attrs: { enctype: "multipart/form-data" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.uploadCsv.apply(null, arguments)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("input", {
+                      staticClass: "form-control",
+                      attrs: { type: "file", required: "" },
+                      on: { change: _vm.selectFile }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "float-right btn btn-primary",
+                      attrs: { type: "submit", disabled: _vm.loading }
+                    },
+                    [_vm._v("Upload")]
+                  )
+                ]
+              )
+            ])
       ])
     ])
   ])

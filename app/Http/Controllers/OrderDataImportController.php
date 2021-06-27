@@ -66,7 +66,7 @@ class OrderDataImportController extends Controller
 
             $batch->add(new StoreChunkedOrderData([
                 'orders' => $data,
-                'columns' => $file_header
+                'columns' => $this->transformKeys($file_header)
             ]));
 
         }
@@ -78,5 +78,25 @@ class OrderDataImportController extends Controller
     public function batchDetails($id)
     {
         return response()->json(Bus::findBatch($id));
+    }
+
+    public function transformKeys(&$array)
+    {
+        foreach (array_keys($array) as $key):
+            # Working with references here to avoid copying the value,
+            # since you said your data is quite large.
+            $value = &$array[$key];
+            unset($array[$key]);
+            # This is what you actually want to do with your keys:
+            #  - remove exclamation marks at the front
+            #  - camelCase to snake_case
+            $transformedKey = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', ltrim($key, '!')));
+            # Work recursively
+            if (is_array($value)) $this->transformKeys($value);
+            # Store with new key
+            $array[$transformedKey] = $value;
+            # Do not forget to unset references!
+            unset($value);
+        endforeach;
     }
 }
