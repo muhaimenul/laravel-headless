@@ -26,7 +26,6 @@ class OrderDataImportController extends Controller
         $chunkedFileData = array_chunk(file($request->csv_file), 800);
         $this->executeDataImport($chunkedFileData);
 
-        return true;
     }
 
     //separate service method
@@ -44,8 +43,6 @@ class OrderDataImportController extends Controller
                 unset($data[0]);
             }
 
-            //testing data
-            logger()->info('chunk_id => ' . $key, $data);
         }
 
     }
