@@ -46,10 +46,21 @@ export default {
     data() {
         return {
             csv: null,
-            batch: null,
+            batch: {
+                // "id": "93c6e511-e5a0-4e05-9974-9e94b3a9a188",
+                // "name": "",
+                // "totalJobs": 0,
+                // "pendingJobs": 0,
+                // "processedJobs": 0,
+                // "progress": 0,
+                // "failedJobs": 0,
+                // "options": [],
+                // "createdAt": "2021-06-27T20:09:19.000000Z",
+                // "cancelledAt": null,
+                // "finishedAt": null
+            },
             batchId: null,
             loading: false,
-            progress: 0,
             options: {
                 progress: {
                     // color: '#2dbd2d',
@@ -65,9 +76,9 @@ export default {
         }
     },
     computed: {
-        // progress: function () {
-        //     return 50
-        // }
+        progress: function () {
+            return this.batch ? this.batch.progress : 0
+        }
     },
     created() {
 
@@ -82,7 +93,7 @@ export default {
 
             let data = new FormData();
             data.append('csv_file', this.csv);
-            console.log(this.csv)
+
             let config = {
                 headers: { 'content-type': 'multipart/form-data' }
             }
@@ -108,7 +119,7 @@ export default {
         },
         checkUploadDetails() {
             if (this.progress < 100) {
-                this.progress += 5;
+
             }
         }
 

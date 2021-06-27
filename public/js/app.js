@@ -1893,10 +1893,20 @@ var BASE_URL = 'http://localhost:8000/api';
   data: function data() {
     return {
       csv: null,
-      batch: null,
+      batch: {// "id": "93c6e511-e5a0-4e05-9974-9e94b3a9a188",
+        // "name": "",
+        // "totalJobs": 0,
+        // "pendingJobs": 0,
+        // "processedJobs": 0,
+        // "progress": 0,
+        // "failedJobs": 0,
+        // "options": [],
+        // "createdAt": "2021-06-27T20:09:19.000000Z",
+        // "cancelledAt": null,
+        // "finishedAt": null
+      },
       batchId: null,
       loading: false,
-      progress: 0,
       options: {
         progress: {// color: '#2dbd2d',
           // backgroundColor: '#333333',
@@ -1910,9 +1920,10 @@ var BASE_URL = 'http://localhost:8000/api';
       }
     };
   },
-  computed: {// progress: function () {
-    //     return 50
-    // }
+  computed: {
+    progress: function progress() {
+      return this.batch ? this.batch.progress : 0;
+    }
   },
   created: function created() {
     var _this = this;
@@ -1928,7 +1939,6 @@ var BASE_URL = 'http://localhost:8000/api';
       this.validateCsv();
       var data = new FormData();
       data.append('csv_file', this.csv);
-      console.log(this.csv);
       var config = {
         headers: {
           'content-type': 'multipart/form-data'
@@ -1954,9 +1964,7 @@ var BASE_URL = 'http://localhost:8000/api';
       return true;
     },
     checkUploadDetails: function checkUploadDetails() {
-      if (this.progress < 100) {
-        this.progress += 5;
-      }
+      if (this.progress < 100) {}
     }
   }
 });
