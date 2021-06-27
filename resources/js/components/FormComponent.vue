@@ -36,6 +36,8 @@
 import LoaderComponent from './LoaderComponent.vue';
 import ProgressBar from 'vuejs-progress-bar'
 
+const BASE_URL = 'http://localhost:8000/api';
+
 export default {
     components: {
         LoaderComponent,
@@ -77,16 +79,22 @@ export default {
     methods: {
         uploadCsv() {
             this.validateCsv()
-            const data = new FormData();
-            data.append('csv', this.csv);
+
+            let data = new FormData();
+            data.append('csv_file', this.csv);
             console.log(this.csv)
-            // this.axios
-            //     .post('http://localhost:8000/api/products', data)
-            //     .then(response => (
-            //         this.$router.push({ name: 'home' })
-            //     ))
-            //     .catch(err => console.log(err))
-            //     .finally(() => this.loading = false)
+            let config = {
+                headers: { 'content-type': 'multipart/form-data' }
+            }
+            axios
+                .post(BASE_URL+'/import-csv', data, config)
+                .then(response => (
+                    console.log(response.data)
+                ))
+                .catch(err => {
+                    console.log(err.response)
+                })
+                .finally(() => this.loading = false)
         },
         selectFile() {
             this.csv = event.target.files[0];

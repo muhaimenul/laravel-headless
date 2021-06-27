@@ -1884,6 +1884,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 
+var BASE_URL = 'http://localhost:8000/api';
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     LoaderComponent: _LoaderComponent_vue__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -1922,16 +1923,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     uploadCsv: function uploadCsv() {
+      var _this2 = this;
+
       this.validateCsv();
       var data = new FormData();
-      data.append('csv', this.csv);
-      console.log(this.csv); // this.axios
-      //     .post('http://localhost:8000/api/products', data)
-      //     .then(response => (
-      //         this.$router.push({ name: 'home' })
-      //     ))
-      //     .catch(err => console.log(err))
-      //     .finally(() => this.loading = false)
+      data.append('csv_file', this.csv);
+      console.log(this.csv);
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
+      axios.post(BASE_URL + '/import-csv', data, config).then(function (response) {
+        return console.log(response.data);
+      })["catch"](function (err) {
+        console.log(err.response);
+      })["finally"](function () {
+        return _this2.loading = false;
+      });
     },
     selectFile: function selectFile() {
       this.csv = event.target.files[0];

@@ -10,15 +10,20 @@ use Illuminate\Support\Facades\Bus;
 class OrderDataImportController extends Controller
 {
 
+    public function __construct()
+    {
+        ini_set('upload_max_filesize', '20M');
+    }
+
     public function import(Request $request)
     {
         // Validate csv file
         $request->validate([
-            'csv' => 'required|file|mimes:csv',
+            'csv_file' => 'required|file|mimes:csv,txt',
         ]);
 
 //            chunk file if large data set
-        $chunkedFileData = array_chunk(file($request->csv), 2000);
+        $chunkedFileData = array_chunk(file($request->csv_file), 800);
         $this->executeDataImport($chunkedFileData);
 
         return true;
