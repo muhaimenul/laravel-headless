@@ -1,18 +1,32 @@
 <template>
     <div>
-        <h3 class="text-center">Create Product</h3>
+        <h3 class="text-center">Upload CSV File</h3>
+
+
         <div class="row">
-            <div class="col-md-6">
-                <form @submit.prevent="addProduct">
+            <div class="col-md-12">
+
+
+                <div>
+                    <progress-bar
+                        :options="options"
+                        :value="progress"
+                    />
+                </div>
+
+                <!--                <form @submit.prevent="uploadCsv" enctype="multipart/form-data">-->
+                <!--                    <input type="file" class="form-control" v-on:change="selectFile">-->
+                <!--                    <button class="btn btn-primary btn-block">Upload</button>-->
+                <!--                </form>-->
+
+
+
+                <form @submit.prevent="uploadCsv" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" v-model="product.name">
+                        <input type="file" class="form-control" v-on:change="selectFile" required>
                     </div>
-                    <div class="form-group">
-                        <label>Detail</label>
-                        <input type="text" class="form-control" v-model="product.detail">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
+
+                    <button type="submit" class="float-right btn btn-primary">Upload</button>
                 </form>
             </div>
         </div>
@@ -21,26 +35,64 @@
 
 <script>
 import LoaderComponent from './LoaderComponent.vue';
+import ProgressBar from 'vuejs-progress-bar'
 
 export default {
+    components: {
+        LoaderComponent,
+        ProgressBar
+    },
     data() {
         return {
-            product: {}
+            csv: null,
+            batch: null,
+            batchId: null,
+            loading: false,
+            options: {
+                progress: {
+                    // color: '#2dbd2d',
+                    // backgroundColor: '#333333',
+                    // inverted: false
+                },
+                layout: {
+                    height: 100,
+                    width: 100,
+                    type: 'cylinder'
+                }
+            }
         }
     },
-    components: {
-        LoaderComponent
+    computed: {
+        progress: function () {
+            return 50
+        }
     },
     methods: {
         uploadCsv() {
-            this.axios
-                .post('http://localhost:8000/api/products', this.product)
-                .then(response => (
-                    this.$router.push({ name: 'home' })
-                ))
-                .catch(err => console.log(err))
-                .finally(() => this.loading = false)
+            this.validateCsv()
+            const data = new FormData();
+            data.append('csv', this.csv);
+            console.log(this.csv)
+            // this.axios
+            //     .post('http://localhost:8000/api/products', data)
+            //     .then(response => (
+            //         this.$router.push({ name: 'home' })
+            //     ))
+            //     .catch(err => console.log(err))
+            //     .finally(() => this.loading = false)
+        },
+        selectFile() {
+            this.csv = event.target.files[0];
+        },
+        validateCsv() {
+
+            if (!this.csv || this.csv.type !== "text/csv") {
+                alert('Not a valid CSV file!')
+                return false
+            }
+            return true;
         }
+
     }
 }
 </script>
