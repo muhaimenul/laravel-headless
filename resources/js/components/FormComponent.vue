@@ -80,8 +80,9 @@ export default {
             if(this.progress) {
                 if(this.progress >= 100) return 'File Uploaded. Upload another file?'
                 if(this.progress > 0 && this.progress != 100) return 'Uploading ...'
-                if(this.progress == 0) return 'Scheduled.'
             }
+            if(this.batch  && this.batch.progress == 0) return 'Scheduled.'
+
         }
     },
     created() {
@@ -122,6 +123,7 @@ export default {
             return true;
         },
         checkUploadDetails() {
+            // TODO:: store batchId in sessionStorage to check ongoing upload
             if (this.batch && this.progress < 100) {
                 let url = BASE_URL + '/batches/' + this.batch.id
                 axios.get(url)

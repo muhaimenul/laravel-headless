@@ -1879,9 +1879,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 var BASE_URL = 'http://localhost:8000/api';
@@ -1923,6 +1920,14 @@ var BASE_URL = 'http://localhost:8000/api';
   computed: {
     progress: function progress() {
       return this.batch ? this.batch.progress : 0;
+    },
+    process_status: function process_status() {
+      if (this.progress) {
+        if (this.progress >= 100) return 'File Uploaded. Upload another file?';
+        if (this.progress > 0 && this.progress != 100) return 'Uploading ...';
+      }
+
+      if (this.batch && this.batch.progress == 0) return 'Scheduled.';
     }
   },
   created: function created() {
@@ -1948,7 +1953,7 @@ var BASE_URL = 'http://localhost:8000/api';
       axios.post(BASE_URL + '/import-csv', data, config).then(function (response) {
         _this2.batch = response.data;
       })["catch"](function (err) {
-        alert(err.response.message || err.response.data.message);
+        alert(_this2.formatErrorMessage(err));
       })["finally"](function () {
         return _this2.loading = false;
       });
@@ -1967,19 +1972,23 @@ var BASE_URL = 'http://localhost:8000/api';
     checkUploadDetails: function checkUploadDetails() {
       var _this3 = this;
 
+      // TODO:: store batchId in sessionStorage to check ongoing upload
       if (this.batch && this.progress < 100) {
         var url = BASE_URL + '/batches/' + this.batch.id;
         axios.get(url).then(function (response) {
           return _this3.batch = response.data;
         })["catch"](function (err) {
           console.log(err.response);
-          var message = (err.response.message || err.response.data.message) + '. Continue?';
+          var message = _this3.formatErrorMessage(err) + '. Continue?';
 
           if (!confirm(message)) {
             _this3.batch = null;
           }
         }); // .finally(() => this.loading = false)
       }
+    },
+    formatErrorMessage: function formatErrorMessage(err) {
+      return err.response.message || err.response.data.message || err.message || 'Something went wrong!';
     }
   }
 });
@@ -37769,11 +37778,9 @@ var render = function() {
   return _c("div", [
     _c("h3", { staticClass: "text-center" }, [_vm._v("Upload CSV File")]),
     _vm._v(" "),
-    _vm.progress && _vm.progress >= 100
-      ? _c("h6", { staticClass: "text-center" }, [
-          _vm._v("File imported. Upload another file?")
-        ])
-      : _vm._e(),
+    _c("h6", { staticClass: "text-center" }, [
+      _vm._v(_vm._s(_vm.process_status))
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
@@ -37791,11 +37798,7 @@ var render = function() {
                   })
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c("h6", { staticClass: "text-center" }, [
-                _vm._v("File importing ...")
-              ])
+              )
             ])
           : _c("div", [
               _c(

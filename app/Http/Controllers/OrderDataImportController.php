@@ -30,7 +30,7 @@ class OrderDataImportController extends Controller
 
         try {
             //            chunk file if large data set
-            $chunkedFileData = array_chunk(file($request->csv_file), 500);
+            $chunkedFileData = array_chunk(file($request->csv_file), 1500);
             $batchData = $this->executeDataImport($chunkedFileData);
             return response()->json($batchData);
         } catch (\Exception $e) {
