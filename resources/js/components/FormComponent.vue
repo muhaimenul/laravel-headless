@@ -2,12 +2,10 @@
     <div>
         <h3 class="text-center">Upload CSV File</h3>
 
-        <h6 v-if="(progress && progress >= 100)" class="text-center">File imported. Upload another file?</h6>
-
+        <h6 class="text-center">{{ process_status }}</h6>
 
         <div class="row">
             <div class="col-md-12">
-
                 <div v-if="(progress && progress != 100)" class="text-center">
                     <div class="align-content-center" style="margin-right: 150px">
                         <progress-bar
@@ -15,7 +13,6 @@
                             :value="progress"
                         />
                     </div>
-                    <h6 class="text-center">File importing ...</h6>
                 </div>
 
                 <div v-else>
@@ -78,6 +75,13 @@ export default {
     computed: {
         progress: function () {
             return this.batch ? this.batch.progress : 0
+        },
+        process_status: function () {
+            if(this.progress) {
+                if(this.progress >= 100) return 'File Uploaded. Upload another file?'
+                if(this.progress > 0 && this.progress != 100) return 'Uploading ...'
+                if(this.progress == 0) return 'Scheduled.'
+            }
         }
     },
     created() {

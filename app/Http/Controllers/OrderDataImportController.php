@@ -13,7 +13,7 @@ class OrderDataImportController extends Controller
 
     public function __construct()
     {
-        ini_set('upload_max_filesize', '20M');
+
     }
 
     /**
