@@ -107,7 +107,7 @@ export default {
                     this.batch = response.data
                 })
                 .catch(err => {
-                    alert(err.response.message || err.response.data.message)
+                    alert(this.formatErrorMessage(err))
                 })
                 .finally(() => this.loading = false)
         },
@@ -130,13 +130,16 @@ export default {
                     ))
                     .catch(err => {
                         console.log(err.response)
-                        let message = (err.response.message || err.response.data.message) +'. Continue?'
+                        let message = this.formatErrorMessage(err) + '. Continue?'
                         if(!confirm(message)) {
                             this.batch = null
                         }
                     })
                     // .finally(() => this.loading = false)
             }
+        },
+        formatErrorMessage(err) {
+            return err.response.message || err.response.data.message || err.message || 'Something went wrong!'
         }
 
     }
