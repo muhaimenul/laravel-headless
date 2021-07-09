@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/import-csv', [\App\Http\Controllers\OrderDataImportController::class, 'import']);
 Route::get('/batches/{id}', [\App\Http\Controllers\OrderDataImportController::class, 'batchDetails']);
+Route::resource('', 'CategoryController');
+Route::resource('', 'CategoryController');

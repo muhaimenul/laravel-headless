@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "445b2b56036f4fb3c253035674db75e4",
+    "content-hash": "2a3b7f83af10001e774e8fee46647d5e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1496,6 +1496,73 @@
                 }
             ],
             "time": "2020-12-14T13:15:25+00:00"
+        },
+        {
+            "name": "muhaimenul/lara-crud",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/muhaimenul/lara-crud.git",
+                "reference": "2ac9b331a8c4fc1a0be1672229927d65095ea533"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/muhaimenul/lara-crud/zipball/2ac9b331a8c4fc1a0be1672229927d65095ea533",
+                "reference": "2ac9b331a8c4fc1a0be1672229927d65095ea533",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.3",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Muhaimenul\\Laracrud\\LaracrudServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Muhaimenul\\Laracrud\\": "src/"
+                },
+                "files": [
+                    "src/Support/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Muhaimenul Islam",
+                    "email": "i.muhaimen@gmail.com",
+                    "homepage": "https://github.com/muhaimenul",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This Generator package provides generators like CRUD, API, Controller, Model, Migration for make your development painless.",
+            "keywords": [
+                "API generator",
+                "controller",
+                "crud",
+                "crud generator",
+                "generator",
+                "laracrud",
+                "laravel",
+                "laravel crud generator",
+                "model",
+                "muhaimenul",
+                "mvc",
+                "routes"
+            ],
+            "support": {
+                "issues": "https://github.com/muhaimenul/lara-crud/issues",
+                "source": "https://github.com/muhaimenul/lara-crud/tree/v2.0.1"
+            },
+            "time": "2021-07-09T13:54:03+00:00"
         },
         {
             "name": "nesbot/carbon",
