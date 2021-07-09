@@ -132,6 +132,18 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        if(!$article->isAuthor()) abort(404);
+
+        try {
+            if($article->delete()) {
+                $data = [
+                    'status' => true,
+                    'message' => 'Deleted successfully!',
+                ];
+                return response()->json($data);
+            }
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
