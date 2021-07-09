@@ -28,6 +28,8 @@ class CreateArticlesTable extends Migration
             $table->longText('body');
             $table->datetime('published_at')->nullable();
 
+            $table->integer('view_count')->default(1);
+
             $table->tinyInteger('status')->default(1)->comment('0 inactive, 1 active');
             $table->softDeletes();
             $table->timestamps();

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Commeny;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
-class CommenyController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CommenyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Commeny  $commeny
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Commeny $commeny)
+    public function show(Comment $comment)
     {
         //
     }
@@ -52,10 +52,10 @@ class CommenyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Commeny  $commeny
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Commeny $commeny)
+    public function edit(Comment $comment)
     {
         //
     }
@@ -64,10 +64,10 @@ class CommenyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Commeny  $commeny
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Commeny $commeny)
+    public function update(Request $request, Comment $comment)
     {
         //
     }
@@ -75,10 +75,10 @@ class CommenyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Commeny  $commeny
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Commeny $commeny)
+    public function destroy(Comment $comment)
     {
         //
     }
