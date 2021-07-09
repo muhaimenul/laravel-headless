@@ -24,8 +24,9 @@ class ArticleService extends Service
     {
         //save image
         if(isset($data['banner']) && $data['banner']) {
-            $data['banner'] = upload_public_file($data['avatar'], '');
+            $data['banner'] = upload_file($data['avatar'], 'articles');
         }
+
 
         return $this->create($data);
     }
