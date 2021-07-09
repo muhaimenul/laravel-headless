@@ -26,8 +26,8 @@ class CreateArticlesTable extends Migration
             $table->string('banner')->nullable();
             $table->string('slug')->unique();
             $table->longText('body');
-
             $table->datetime('published_at')->nullable();
+
             $table->tinyInteger('status')->default(1)->comment('0 inactive, 1 active');
             $table->softDeletes();
             $table->timestamps();
