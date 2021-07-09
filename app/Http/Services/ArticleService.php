@@ -19,6 +19,15 @@ class ArticleService extends Service
     {
         $this->model = new Article();
     }
-//$user = $this->create($data);
+
+    public function createArticle(array $data)
+    {
+        //save image
+        if(isset($data['banner']) && $data['banner']) {
+            $data['banner'] = upload_public_file($data['avatar'], '');
+        }
+
+        return $this->create($data);
+    }
 
 }
