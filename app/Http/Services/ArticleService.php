@@ -27,8 +27,16 @@ class ArticleService extends Service
             $data['banner'] = upload_file($data['avatar'], 'articles');
         }
 
-
         return $this->create($data);
     }
 
+    public function updateArticle(array $data, int $id)
+    {
+        //save image
+        if(isset($data['banner']) && $data['banner']) {
+            $data['banner'] = upload_file($data['avatar'], 'articles');
+        }
+
+        return $this->update($data, $id);
+    }
 }

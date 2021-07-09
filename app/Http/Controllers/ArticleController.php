@@ -18,6 +18,12 @@ class ArticleController extends Controller
         $this->articleSvc = $articleService;
     }
 
+    public function publicArticles()
+    {
+        $articles = $this->articleSvc->with('author')->paginate(20);
+        return response()->json($articles);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +31,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = $this->articleSvc->with('author')->paginate(20);
+        $articles = $this->articleSvc->where('auther_id', auth()->id)->paginate(20);
         return response()->json($articles);
     }
 
@@ -52,7 +58,12 @@ class ArticleController extends Controller
 
         try {
             $article = $this->articleSvc->createArticle($data);
-            return response()->json($article);
+            $data = [
+                'status' => true,
+                'message' => 'Created successfully!',
+                'article' => $article
+            ];
+            return response()->json($data);
         } catch (\Exception $e) {
             throw $e;
         }
@@ -78,7 +89,14 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        if(!$article->isAuthor()) abort(404);
+
+        $data = [
+            'categories' => Category::all(),
+            'article' => $article
+        ];
+        return response($data)->json();
+
     }
 
     /**
@@ -88,9 +106,22 @@ class ArticleController extends Controller
      * @param \App\Models\Article $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(ArticleRequest $request, Article $article)
     {
-        //
+        if(!$article->isAuthor()) abort(404);
+        $data = $request->validated();
+
+        try {
+            $article = $this->articleSvc->updateArticle($data, $article->id);
+            $data = [
+                'status' => true,
+                'message' => 'Updated successfully!',
+                'article' => $article
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     /**

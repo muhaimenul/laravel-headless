@@ -25,4 +25,10 @@ class Article extends Model
     {
         return $this->hasMany(Comment::class, 'article_id',  'id');
     }
+
+    public function isAuthor()
+    {
+        return $this->author->id == auth()->id;
+    }
+
 }
