@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/import-csv', [\App\Http\Controllers\OrderDataImportController::class, 'import']);
-Route::get('/batches/{id}', [\App\Http\Controllers\OrderDataImportController::class, 'batchDetails']);
-Route::resource('', 'CategoryController');
-Route::resource('', 'CategoryController');
+Route::post('categories', [\App\Http\Controllers\CategoryController::class, 'index']);
+Route::get('/public/articles', [\App\Http\Controllers\ArticleController::class, 'publicArticles']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('articles', \App\Http\Controllers\ArticleController::class);
+    Route::resource('comments', \App\Http\Controllers\CommentController::class)->except(['create', 'edit']);
+});
