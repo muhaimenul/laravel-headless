@@ -96,6 +96,18 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        if(!$comment->isCommenter()) abort(404);
+
+        try {
+            if($comment->delete()) {
+                $data = [
+                    'status' => true,
+                    'message' => 'Deleted successfully!',
+                ];
+                return response()->json($data);
+            }
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
