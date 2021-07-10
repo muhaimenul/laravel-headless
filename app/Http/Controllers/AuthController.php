@@ -61,4 +61,9 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
+
+    public function profile()
+    {
+        return response()->json(request()->user());
+    }
 }

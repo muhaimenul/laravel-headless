@@ -16,15 +16,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
-Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
-
-
 Route::get('categories', [\App\Http\Controllers\CategoryController::class, 'index']);
-Route::get('/public/articles', [\App\Http\Controllers\ArticleController::class, 'publicArticles']);
-Route::get('/public/articles/{slug}', [\App\Http\Controllers\ArticleController::class, 'publicArticle']);
-Route::get('/public/articles/{slug}/comments', [\App\Http\Controllers\CommentController::class, 'getArticleComments']);
 
-Route::middleware(['auth'])->group(function () {
+
+Route::prefix('public')->group(function () {
+    Route::get('articles', [\App\Http\Controllers\ArticleController::class, 'publicArticles']);
+    Route::get('articles/{slug}', [\App\Http\Controllers\ArticleController::class, 'publicArticle']);
+    Route::get('articles/{slug}/comments', [\App\Http\Controllers\CommentController::class, 'getArticleComments']);
+});
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+    Route::post('/profile', [\App\Http\Controllers\AuthController::class, 'profile']);
+
     Route::resource('articles', \App\Http\Controllers\ArticleController::class);
     Route::resource('comments', \App\Http\Controllers\CommentController::class)->except(['create', 'edit', 'show']);
 });
