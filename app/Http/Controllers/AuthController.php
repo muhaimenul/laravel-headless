@@ -64,6 +64,17 @@ class AuthController extends Controller
 
     public function profile()
     {
-        return response()->json(request()->user());
+        return response()->json(auth()->user());
+    }
+
+    public function logout()
+    {
+        auth()->user()->currentAccessToken()->delete();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Logged out successfully!',
+        ]);
     }
 }
