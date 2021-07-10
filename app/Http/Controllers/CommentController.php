@@ -2,11 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\CommentService;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+
+    protected $commentSvc;
+
+    public function __construct(CommentService $commentSvc)
+    {
+        $this->commentSvc = $commentSvc;
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getArticleComments($id)
+    {
+        return response()->json($this->commentSvc->getArticleComments($id));
+    }
+
     /**
      * Display a listing of the resource.
      *
