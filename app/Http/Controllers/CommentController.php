@@ -32,7 +32,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = $this->commentSvc->where('user_id', auth()->id)->paginate(20);
+        return response()->json($comments);
     }
 
     /**
