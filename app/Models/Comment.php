@@ -21,4 +21,10 @@ class Comment extends Model
     {
         return $this->belongsTo(Article::class, 'article_id',  'id');
     }
+
+
+    public function isCommenter()
+    {
+        return $this->user_id == auth()->id;
+    }
 }

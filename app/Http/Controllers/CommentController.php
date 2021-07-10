@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\CommentRequest;
 use App\Http\Services\CommentService;
 use App\Models\Comment;
@@ -63,37 +64,28 @@ class CommentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comment $comment)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(ArticleRequest $request, Comment $comment)
     {
-        //
+        if(!$comment->isCommenter()) abort(404);
+        $data = $request->validated();
+
+        try {
+            $comment = $this->commentSvc->update($data, $comment->id);
+            $data = [
+                'status' => true,
+                'message' => 'Updated successfully!',
+                'article' => $comment
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     /**

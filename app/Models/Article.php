@@ -28,7 +28,7 @@ class Article extends Model
 
     public function isAuthor()
     {
-        return $this->author->id == auth()->id;
+        return $this->author_id == auth()->id;
     }
 
 }
