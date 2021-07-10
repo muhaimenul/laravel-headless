@@ -10,6 +10,8 @@ class Article extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $appends = ['banner_full_path'];
+
 
     public function author()
     {
@@ -29,6 +31,13 @@ class Article extends Model
     public function isAuthor()
     {
         return $this->author_id == auth()->id;
+    }
+
+
+    // accessors
+    public function getBannerFullPathAttribute()
+    {
+        return get_file($this->banner);
     }
 
 }
