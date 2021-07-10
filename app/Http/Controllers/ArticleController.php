@@ -24,6 +24,12 @@ class ArticleController extends Controller
         return response()->json($articles);
     }
 
+    public function publicArticle($id)
+    {
+        $articles = $this->articleSvc->with('author')->findOrFail($id);
+        return response()->json($articles);
+    }
+
     /**
      * Display a listing of the resource.
      *
