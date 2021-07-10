@@ -19,7 +19,7 @@ class CategoryController extends Controller
 	 */
     public function __construct()
 	{
-
+        //TODO:: Categories are populated using Seeder. This category manage will be needed for Admin
 	}
 
     public function index()

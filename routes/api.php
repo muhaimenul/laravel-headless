@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('categories', [\App\Http\Controllers\CategoryController::class, 'index']);
+Route::get('categories', [\App\Http\Controllers\CategoryController::class, 'index']);
 Route::get('/public/articles', [\App\Http\Controllers\ArticleController::class, 'publicArticles']);
 Route::get('/public/articles/{slug}', [\App\Http\Controllers\ArticleController::class, 'publicArticle']);
 Route::get('/public/articles/{slug}/comments', [\App\Http\Controllers\CommentController::class, 'getArticleComments']);
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('articles', \App\Http\Controllers\ArticleController::class);
-    Route::resource('comments', \App\Http\Controllers\CommentController::class)->except(['create', 'edit']);
+    Route::resource('comments', \App\Http\Controllers\CommentController::class)->except(['create', 'edit', 'show']);
 });
