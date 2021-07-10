@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentRequest;
 use App\Http\Services\CommentService;
 use App\Models\Comment;
 use Illuminate\Http\Request;
@@ -36,15 +37,6 @@ class CommentController extends Controller
         return response()->json($comments);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -52,9 +44,22 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['user_id'] = auth()->id;
+
+        try {
+            $comment = $this->commentSvc->create($data);
+            $data = [
+                'status' => true,
+                'message' => 'Created successfully!',
+                'article' => $comment
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     /**
