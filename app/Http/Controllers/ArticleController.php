@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
-use App\Http\Services\ArticleService;
+use App\Services\ArticleService;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;

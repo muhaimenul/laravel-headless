@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\CommentRequest;
-use App\Http\Services\CommentService;
+use App\Services\CommentService;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 

@@ -7,7 +7,7 @@
  */
 
 
-namespace App\Http\Services;
+namespace App\Services;
 
 
 use Illuminate\Database\Eloquent\Model;
