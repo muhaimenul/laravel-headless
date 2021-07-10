@@ -21,9 +21,9 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getArticleComments($id)
+    public function getArticleComments($slug)
     {
-        return response()->json($this->commentSvc->getArticleComments($id));
+        return response()->json($this->commentSvc->getArticleComments($slug));
     }
 
     /**

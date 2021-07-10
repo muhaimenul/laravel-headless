@@ -39,4 +39,9 @@ class ArticleService extends Service
 
         return $this->update($data, $id);
     }
+
+    public function getArticleBySlug($slug)
+    {
+        return $this->with('author')->where(['slug' => $slug])->firstOrFail();
+    }
 }

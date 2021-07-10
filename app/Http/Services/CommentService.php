@@ -25,4 +25,6 @@ class CommentService extends Service
     {
         $this->with('user')->where('article_id', $article_id)->paginate($per_page);
     }
+
+
 }

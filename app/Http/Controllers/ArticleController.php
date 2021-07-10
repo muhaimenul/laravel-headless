@@ -24,9 +24,9 @@ class ArticleController extends Controller
         return response()->json($articles);
     }
 
-    public function publicArticle($id)
+    public function publicArticle($slug)
     {
-        $articles = $this->articleSvc->with('author')->findOrFail($id);
+        $articles = $this->articleSvc->getArticleBySlug($slug);
         return response()->json($articles);
     }
 
