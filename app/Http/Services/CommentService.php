@@ -21,9 +21,11 @@ class CommentService extends Service
         $this->model = new Comment();
     }
 
-    public function getArticleComments($article_id, $per_page = 10)
+    public function getArticleComments($article_slug, $per_page = 10)
     {
-        $this->with('user')->where('article_id', $article_id)->paginate($per_page);
+        $articleSvc = app()->make(ArticleService::class);
+
+        return $this->with('user')->where('article_id', $articleSvc->getArticleBySlug($article_slug)->id)->paginate($per_page);
     }
 
 
