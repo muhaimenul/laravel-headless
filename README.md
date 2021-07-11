@@ -1,10 +1,8 @@
-<h1 align="center"><a href="https://github.com/muhaimenul/import-csv.git" target="_blank">CSV File Importer</a></p>
+<h1 align="center"><a href="https://github.com/muhaimenul/import-csv.git" target="_blank">Laravel Demo</a></p>
 
 ## About Project
 
-This application provides, import data from CSV file. Form backend PHP, Laravel is a web application framework is used. For frontend, VueJS framweork is used. Laravel provides VueJS ui scaffolding to develop frontend client.
-
-An efficient system where it accepts a CSV file and import (Laravel) all rows into a database table. The file needs is uploaded via an user interface (VueJs) where a user can upload the file. Users are able to also see the status of the uploaded file.
+This is a demo laravel project. Providing various features implementation.
 
 ## Dependency and Requirements
 
