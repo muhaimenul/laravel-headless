@@ -1,8 +1,8 @@
-<h1 align="center"><a href="https://github.com/muhaimenul/import-csv.git" target="_blank">Laravel Demo</a></p>
+<h1 align="center"><a href="https://github.com/muhaimenul/import-csv.git" target="_blank">Laravel Headless API for Blogging Site</a></p>
 
 ## About Project
 
-This is a demo laravel project. Providing various features implementation.
+This is a template laravel project to Build API. Providing various features implementation.
 
 ## Dependency and Requirements
 
@@ -17,17 +17,14 @@ composer
 vuejs 3
 ```
 
-###Note: To upload large size file, `upload_max_filesize` and `post_max_size` limit in the php.ini file need to be changed according to the preferred file size.
-
-
 ## Installation
 
 Steps to install and run the project:
 
 ```php 
 
-git clone https://github.com/muhaimenul/import-csv.git
-cd import-csv
+git clone https://github.com/muhaimenul/laravel-headless.git
+cd laravel-headless
 composer install
 
 ```
@@ -38,12 +35,10 @@ then,
 
 ```php 
 
-npm install && npm run dev
 php artisan config:cache
 php artisan migrate
 php artisan serve
 php artisan queue:listen
-npm run watch
 
 ```
 
